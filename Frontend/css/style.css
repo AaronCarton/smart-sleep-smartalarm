@@ -1,0 +1,26 @@
+body {
+	background-color: #292151;
+	color: #f4f4f6;
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 25%;
+}
+
+td,
+th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+/* #chart {
+	width: 40%;
+} */
+
+.apexcharts-tooltip {
+	background: #403773;
+	color: #f4f4f6;
+}

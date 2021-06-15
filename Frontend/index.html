@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="css/screen.css" />
+		<!-- <link rel="stylesheet" href="css/style.css" /> -->
+		<link rel="stylesheet" href="css/perc-circle.css" />
+		<script
+			src="https://cdn.socket.io/4.0.1/socket.io.min.js"
+			integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+		<script src="script/datahandler.js"></script>
+		<script src="script/app.js"></script>
+		<title>Smart Sleep</title>
+	</head>
+	<body>
+		<div class="c-header">
+			<div class="c-header--title">Smart Sleep</div>
+			<div class="c-header--subtitle o-container">Dashboard</div>
+		</div>
+		<div class="body">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-container u-shadow-border">
+						<div class="o-layout o-layout--align-center o-layout--justify-center">
+							<div class="o-layout__item u-1-of-2-bp4 o-layout--align-content-space-between o-layout--justify-center o-layout">
+								<div class="o-layout__item u-2-of-5-bp4 u-1-of-5-bp2 u-mb-lg o-layout o-layout--align-center o-layout--justify-center">
+									<div class="c100 p75 big js-sleep-radial">
+										<span class="js-sleep-percentage">50%</span>
+										<span id="sp">sleep quality</span>
+										<div class="slice">
+											<div class="bar"></div>
+											<div class="fill"></div>
+										</div>
+									</div>
+								</div>
+								<div class="data-values o-layout__item u-1-of-2-bp4 u-1-of-5-bp2 u-ml-xl o-layout o-layout-column o-layout--justify-space-between">
+									<div class="dropdown dropdown-reading u-mb-md">
+										<div class="c-link-cta cta-dropdown js-dropdown">
+											<a class="js-dropdown-selected">Latest</a>
+											<i class="arrow down"></i>
+										</div>
+										<div id="dropdown" class="dropdown-content">
+											<a class="js-dropdown-latest">Latest</a>
+											<a class="js-dropdown-averages">Averages</a>
+										</div>
+									</div>
+									<!-- <a href="#!" class="" style="display: inline-block;padding: 0px 35px 0px 0px;">Latest values</a> -->
+									<div class="u-lh-sm u-mb-md">
+										<p class="u-mb-clear">Temperature: <span class="js-temp">loading...</span></p>
+										<p class="u-mb-clear">CO levels: <span class="js-air">loading...</span></p>
+										<p class="u-mb-clear">Sound: <span class="js-sound">loading...</span></p>
+										<p class="u-mb-clear">Light: <span class="js-light">loading...</span></p>
+									</div>
+									<a href="#!" class="c-link-cta o-layout--align-self-end o-container js-overview-button">Overview</a>
+								</div>
+							</div>
+							<div class="data-chart o-layout__item u-mt-xl u-1-of-2-bp2 o-layout--align-center o-layout--justify-end o-layout" style="position: relative">
+								<div class="dropdowns o-layout__item u-plr-md o-layout o-layout--justify-space-between">
+									<div class="dropdown dropdown-value">
+										<div class="c-link-cta cta-dropdown js-dropdown-value">
+											<a class="js-dropdown-value-selected">Temperature</a>
+											<i class="arrow down"></i>
+										</div>
+										<div id="dropdown-value" class="dropdown-content">
+											<a class="js-dropdown-temp">Temperature</a>
+											<a class="js-dropdown-light">Light</a>
+											<a class="js-dropdown-sound">Sound</a>
+											<a class="js-dropdown-air">CO level</a>
+										</div>
+									</div>
+									<div class="c-link-cta cta-dropdown js-dropdown-value">
+										<input class="js-chart-date" type="date">
+										<!-- <a class="js-dropdown-value-selected">Temperature</a>
+										<i class="arrow down"></i> -->
+									</div>
+								</div>
+								<div id="chart" class="js-chart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="o-row">
+					<div class="o-section">
+						<div class="dashboard-tile-row o-layout o-layout--align-center o-layout--gutter-md o-layout--justify-space-between">
+							<div class="u-max-width-md o-layout__item u-1-of-2-bp4 o-layout o-dashboard-tile u-shadow-border o-layout--align-start">
+								<div class="alarm-header o-layout__item o-layout o-layout--justify-space-between u-mb-md">
+									<div class="c-lead c-lead--sub-title">Alarms</div>
+									<a class="js-alarm-add c-link-cta cta--tiny">add</a>
+								</div>
+								<div class="js-alarm-grid o-layout__item o-layout o-layout--justify-center">
+									<div class="js-alarm c-alarm o-layout o-layout--align-center o-layout--justify-space-between">
+										<div class="js-alarm-info o-layout o-layout-column o-layout--align-content-space-around">
+											<div class="js-alarm-description c-alarm-description c-lead c-lead--md">Wake up</div>
+											<div class="js-alarm-time c-lead c-lead--lg">09:00 AM</div>
+										</div>
+										<div class="js-alarm-toggle c-toggle o-layout o-layout--align-center c-toggle-disabled">
+											<span class="c-toggle-dot"></span>
+										</div>
+									</div>
+									<div class="js-alarm c-alarm o-layout o-layout--align-center o-layout--justify-space-between">
+										<div class="js-alarm-info o-layout o-layout-column o-layout--align-content-space-around">
+											<div class="js-alarm-description c-alarm-description c-lead c-lead--md">Wake up</div>
+											<div class="js-alarm-time c-lead c-lead--lg">09:00 AM</div>
+										</div>
+										<div class="js-alarm-toggle c-toggle o-layout o-layout--align-center c-toggle-disabled">
+											<span class="c-toggle-dot"></span>
+										</div>
+									</div>
+									<div class="js-alarm c-alarm o-layout o-layout--align-center o-layout--justify-space-between">
+										<div class="js-alarm-info o-layout o-layout-column o-layout--align-content-space-around">
+											<div class="js-alarm-description c-alarm-description c-lead c-lead--md">Wake up</div>
+											<div class="js-alarm-time c-lead c-lead--lg">09:00 AM</div>
+										</div>
+										<div class="js-alarm-toggle c-toggle o-layout o-layout--align-center c-toggle-disabled">
+											<span class="c-toggle-dot"></span>
+										</div>
+									</div>
+									<div class="js-alarm c-alarm o-layout o-layout--align-center o-layout--justify-space-between">
+										<div class="js-alarm-info o-layout o-layout-column o-layout--align-content-space-around">
+											<div class="js-alarm-description c-alarm-description c-lead c-lead--md">Wake up</div>
+											<div class="js-alarm-time c-lead c-lead--lg">09:00 AM</div>
+										</div>
+										<div class="js-alarm-toggle c-toggle o-layout o-layout--align-center c-toggle-disabled">
+											<span class="c-toggle-dot"></span>
+										</div>
+									</div>
+									<div class="js-alarm c-alarm o-layout o-layout--align-center o-layout--justify-space-between">
+										<div class="js-alarm-info o-layout o-layout-column o-layout--align-content-space-around">
+											<div class="js-alarm-description c-alarm-description c-lead c-lead--md">Wake up</div>
+											<div class="js-alarm-time c-lead c-lead--lg">09:00 AM</div>
+										</div>
+										<div class="js-alarm-toggle c-toggle o-layout o-layout--align-center c-toggle-disabled">
+											<span class="c-toggle-dot"></span>
+										</div>
+									</div>
+									<div class="js-alarm c-alarm o-layout o-layout--align-center o-layout--justify-space-between">
+										<div class="js-alarm-info o-layout o-layout-column o-layout--align-content-space-around">
+											<div class="js-alarm-description c-alarm-description c-lead c-lead--md">Wake up</div>
+											<div class="js-alarm-time c-lead c-lead--lg">09:00 AM</div>
+										</div>
+										<div class="js-alarm-toggle c-toggle o-layout o-layout--align-center c-toggle-disabled">
+											<span class="c-toggle-dot"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="u-max-width-md o-layout__item u-1-of-2-bp4 o-layout o-layout--justify-space-around o-dashboard-tile u-shadow-border">
+								<div class="color-header o-layout__item o-layout o-layout--justify-space-between u-mb-md">
+									<div class="c-lead c-lead--sub-title">Color</div>
+								</div>
+								<div class="color-picker-body o-layout o-layout--align-center o-layout--justify-space-around o-container-vertical">
+									<div class="color-picker c-color-picker u-mb-lg o-layout o-layout-column o-layout--align-center o-layout--justify-space-between">
+										<div class="color-picker-inputs">
+											<div class="color-picker-hex">
+												<label class="c-label" for="hex">Hex</label>
+												<br />
+												<input class="c-input js-hex" type="text" name="hex" id="hex" value="#ffff" />
+											</div>
+											<div class="color-picker-rgb">
+												<label class="c-label" for="rgb">RGB</label>
+												<br />
+												<input class="c-input js-rgb" type="text" name="rgb" id="rgb" value="0,0,0" />
+											</div>
+										</div>
+										<a class="color-picker-button js-color-button c-link-cta cta--small">Set color</a>
+									</div>
+									<div>
+										<div id="picker"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal--overview c-modal--hidden js-modal">
+			<div class="c-modal-dim"></div>
+			<div class="c-modal">
+				<div class="c-modal-header o-layout o-layout--align-center o-layout--justify-space-between">
+					<div class="o-container">Overview</div>
+					<div class="c-modal-close">
+						<svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 0 24 24" width="35px" fill="#fe1c78">
+							<path d="M0 0h24v24H0V0z" fill="none"></path>
+							<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
+						</svg>
+					</div>
+				</div>
+				<div class="c-modal--overview-body">
+					<div class="c-modal--overview-warning">
+						<div class="c-lead c-lead--md">loading...</div>
+						<div class="c-lead c-lead--sm">loading...</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal--alarm c-modal--hidden js-modal">
+			<div class="c-modal-dim"></div>
+			<div class="c-modal">
+				<div class="c-modal-header o-layout o-layout--align-center o-layout--justify-space-between">
+					<div class="o-container">Alarm</div>
+					<div class="c-modal-close">
+						<svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 0 24 24" width="35px" fill="#fe1c78">
+							<path d="M0 0h24v24H0V0z" fill="none"></path>
+							<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
+						</svg>
+					</div>
+				</div>
+				<div class="c-modal--alarm-body o-layout o-layout-column o-layout--align-content-center o-layout--justify-center">
+					<div class="u-mb-lg o-layout o-layout-column o-layout--align-center o-layout--justify-space-between">
+						<div class="alarm-info o-layout o-layout--justify-center">
+							<div class="alarm-time"><input class="c-input js-add-alarm-time" type="time" name="alarm-time" id="alarm-time" value="00:00" /></div>
+							<div class="alarm-name">
+								<label class="c-label" for="alarm-name">Name</label>
+								<br />
+								<input class="c-input js-add-alarm-name" type="text" name="alarm-name" id="alarm-name" value="Alarm" />
+							</div>
+						</div>
+						<a class="js-add-alarm-button c-link-cta cta--small">Set alarm</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal--confirmation c-modal--hidden js-modal">
+			<div class="c-modal-dim"></div>
+			<div class="c-modal c-modal--confirmation">
+				<div class="c-modal-header u-mb-md o-layout o-layout--align-center o-layout--justify-space-between">
+					<div class="o-container">Delete alarm?</div>
+					<div class="c-modal-close">
+						<svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 0 24 24" width="35px" fill="#fe1c78">
+							<path d="M0 0h24v24H0V0z" fill="none"></path>
+							<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
+						</svg>
+					</div>
+				</div>
+				<div class="c-modal--confirmation-body o-layout o-layout-column o-layout--align-content-center o-layout--justify-center">
+					<div class="u-mb-lg o-layout o-layout-column o-layout--align-center o-layout--justify-space-between">
+						<div class="confirmation-text o-layout o-layout--justify-center">
+							<p>Are you sure you want to delete this alarm?</p>
+						</div>
+						<div class="confirmation-buttons">
+							<a class="js-remove-alarm-confirm c-link-cta cta--small" data-id="0">Yes</a>
+							<a class="js-remove-alarm-deny c-link-cta cta--small">No</a>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
